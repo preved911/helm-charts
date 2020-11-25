@@ -81,8 +81,6 @@ spec:
             {{- if .Values.postgresql.enabled }}
             - name: DB_VENDOR
               value: postgres
-            - name: DB_PORT
-              value: {{ .Values.postgresql.service.port | quote }}
             - name: DB_DATABASE
               value: {{ .Values.postgresql.postgresqlDatabase | quote }}
             - name: DB_USER
