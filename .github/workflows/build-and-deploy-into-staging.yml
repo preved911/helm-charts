@@ -1,0 +1,30 @@
+name: test deploy
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: benjlevesque/short-sha@v1.2
+        id: image_tag
+        with:
+          length: 7
+
+      - name: deploy application to kubernetes
+        uses: 'deliverybot/helm@v1.5.0'
+        with:
+          helm: helm3
+          release: test-keycloak
+          namespace: default
+          chart: charts/keycloak
+        env:
+          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
